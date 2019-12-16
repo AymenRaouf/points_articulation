@@ -32,7 +32,8 @@ for i in range(0, dim):
 '''
 cpt_connexe = 0
 '''
-    logique de remplissage
+    on calcule le nombre de composantes connexes en utilisant
+    la methode bfs (parcours en largeur)
 '''
 pile = LifoQueue(maxsize = dim)
 for i in range(0, dim):
@@ -51,7 +52,12 @@ for i in range(0, dim):
 print("la liste connexe des graphes : \n")
 print(liste_connexe)
 '''
-
+    pour avoir le nombre de composantes connexes
+    on supprime chaque fois un sommet et
+    on recalcule le nombre de composantes connexes
+    si le nombre de composantes connexes augmente
+    le point supprimé est ajouté à la liste des 
+    compsantes connexes
 '''
 liste_compare = np.arange(dim)
 point_articulation = LifoQueue(maxsize = dim)
@@ -78,14 +84,21 @@ for s in range(0, dim):
     print(cpt_compare)
     if cpt_compare > cpt_connexe:
         point_articulation.put(s)
-'''print("Les points d'articualtion sont : \n")
+#enlever le commentaire pour afficher les points sur la console
+'''
+print("Les points d'articualtion sont : \n")
 while point_articulation.qsize() != 0:
-    print(point_articulation.get())'''
+    print(point_articulation.get())
+'''
     
 #importer graphviz pour visualiser le graphe avec les points d'articulation
 from graphviz import Graph
 g = Graph('G', filename='articulation.gv')
 print("Nombre de points d'articulation : ", point_articulation.qsize())
+'''
+    les points d'articulation sont schématisés en boite vertes
+    les autres points sont schématisés en circles grises
+'''
 while point_articulation.qsize() != 0:
     g.attr('node', style='filled', color='green', shape='box')
     g.node(str(point_articulation.get()))
